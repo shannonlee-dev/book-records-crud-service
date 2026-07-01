@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}{% if mode == "edit" %}도서 수정{% else %}새 도서 기록{% endif %}{% endblock %}
+{% block content %}
+  <section class="panel">
+    <h1>{% if mode == "edit" %}도서 수정{% else %}새 도서 기록{% endif %}</h1>
+    <form action="{{ action_url }}" method="post">
+      <label for="title">제목</label>
+      <input id="title" name="title" value="{{ book.title | default('', true) }}" required>
+      {% if errors.title %}<div class="error">{{ errors.title }}</div>{% endif %}
+
+      <label for="author">저자</label>
+      <input id="author" name="author" value="{{ book.author | default('', true) }}" required>
+      {% if errors.author %}<div class="error">{{ errors.author }}</div>{% endif %}
+
+      <label for="publication_year">출판년도</label>
+      <input id="publication_year" name="publication_year" type="number" min="1" max="2100" value="{{ book.publication_year | default('', true) }}" required>
+      {% if errors.publication_year %}<div class="error">{{ errors.publication_year }}</div>{% endif %}
+
+      <label for="note">메모</label>
+      <textarea id="note" name="note" rows="6">{{ book.note | default('', true) }}</textarea>
+      {% if errors.note %}<div class="error">{{ errors.note }}</div>{% endif %}
+
+      <div class="actions">
+        <button type="submit">저장</button>
+        <a class="button secondary" href="/books">취소</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}

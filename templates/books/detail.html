@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+  <section class="panel">
+    <h1>{{ book.title }}</h1>
+    <dl>
+      <dt>ID</dt>
+      <dd>{{ book.id }}</dd>
+      <dt>제목</dt>
+      <dd>{{ book.title }}</dd>
+      <dt>저자</dt>
+      <dd>{{ book.author }}</dd>
+      <dt>출판년도</dt>
+      <dd>{{ book.publication_year }}</dd>
+      <dt>메모</dt>
+      <dd>{{ book.note or "메모 없음" }}</dd>
+      <dt>등록일시</dt>
+      <dd>{{ book.created_at }}</dd>
+      <dt>수정일시</dt>
+      <dd>{{ book.updated_at }}</dd>
+    </dl>
+    <div class="actions">
+      <a class="button" href="/books/{{ book.id }}/edit">수정</a>
+      <form action="/books/{{ book.id }}/delete" method="post">
+        <button class="danger" type="submit">삭제</button>
+      </form>
+      <a class="button secondary" href="/books">목록으로</a>
+    </div>
+  </section>
+{% endblock %}

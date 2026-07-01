@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}도서를 찾을 수 없음{% endblock %}
+{% block content %}
+  <section class="panel">
+    <h1>해당 데이터를 찾을 수 없습니다</h1>
+    <p>ID {{ book_id }}에 해당하는 도서 기록이 없습니다.</p>
+    <div class="actions">
+      <a class="button" href="/books">목록으로 이동</a>
+      <a class="button secondary" href="/books/new">새 도서 기록</a>
+    </div>
+  </section>
+{% endblock %}

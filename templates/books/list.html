@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}도서 목록{% endblock %}
+{% block content %}
+  <section class="panel">
+    <h1>도서 목록</h1>
+    <form action="/books" method="get">
+      <label for="q">검색</label>
+      <input id="q" name="q" value="{{ q }}" placeholder="제목, 저자, 메모 검색">
+      <div class="actions">
+        <button type="submit">검색</button>
+        <a class="button secondary" href="/books">초기화</a>
+        <a class="button" href="/books/new">새 도서 기록</a>
+      </div>
+    </form>
+    {% if books %}
+      <table>
+        <thead>
+          <tr>
+            <th>제목</th>
+            <th>저자</th>
+            <th>출판년도</th>
+            <th>상세</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for book in books %}
+            <tr>
+              <td>{{ book.title }}</td>
+              <td>{{ book.author }}</td>
+              <td>{{ book.publication_year }}</td>
+              <td><a href="/books/{{ book.id }}">상세보기</a></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p class="empty">아직 등록된 도서가 없습니다.</p>
+    {% endif %}
+  </section>
+{% endblock %}

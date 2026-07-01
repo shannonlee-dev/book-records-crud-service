@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}도서 기록장{% endblock %}</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, "Noto Sans KR", sans-serif;
+        background: #f4f6f8;
+        color: #17202a;
+      }
+      body {
+        margin: 0;
+      }
+      header {
+        background: #1f2937;
+        color: white;
+        padding: 16px 24px;
+      }
+      header a {
+        color: white;
+        margin-right: 16px;
+        text-decoration: none;
+      }
+      main {
+        max-width: 960px;
+        margin: 0 auto;
+        padding: 24px;
+      }
+      .panel {
+        background: white;
+        border: 1px solid #d8dee6;
+        border-radius: 8px;
+        padding: 20px;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 16px;
+      }
+      a.button,
+      button {
+        background: #2563eb;
+        border: 0;
+        border-radius: 6px;
+        color: white;
+        cursor: pointer;
+        display: inline-block;
+        font: inherit;
+        padding: 9px 13px;
+        text-decoration: none;
+      }
+      a.secondary,
+      button.secondary {
+        background: #4b5563;
+      }
+      button.danger {
+        background: #b91c1c;
+      }
+      input,
+      textarea {
+        border: 1px solid #b8c2cc;
+        border-radius: 6px;
+        box-sizing: border-box;
+        display: block;
+        font: inherit;
+        margin-top: 6px;
+        padding: 9px;
+        width: 100%;
+      }
+      label {
+        display: block;
+        font-weight: 700;
+        margin-top: 14px;
+      }
+      .error {
+        color: #b91c1c;
+        font-size: 0.92rem;
+        margin-top: 4px;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #d8dee6;
+        padding: 10px;
+        text-align: left;
+        vertical-align: top;
+      }
+      .empty {
+        color: #5b6573;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/">도서 기록장</a>
+      <a href="/books">목록</a>
+      <a href="/books/new">새 기록</a>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+  </body>
+</html>
