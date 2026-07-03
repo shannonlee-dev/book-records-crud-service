@@ -11,6 +11,22 @@ router = APIRouter()
 templates = Jinja2Templates(directory="templates")
 
 
+def not_found_response(request: Request, book_id: str):
+    return templates.TemplateResponse(
+        request,
+        "books/not_found.html",
+        {"book_id": book_id},
+        status_code=404,
+    )
+
+
+def parse_book_id(book_id: str) -> int | None:
+    try:
+        return int(book_id)
+    except ValueError:
+        return None
+
+
 def book_form_data(
     title: str = Form(""),
     author: str = Form(""),
@@ -77,28 +93,26 @@ def create_book(
 
 
 @router.get("/books/{book_id}")
-def book_detail(request: Request, book_id: int, db: Session = Depends(get_db)):
-    book = book_service.get_book(db, book_id)
+def book_detail(request: Request, book_id: str, db: Session = Depends(get_db)):
+    parsed_book_id = parse_book_id(book_id)
+    if parsed_book_id is None:
+        return not_found_response(request, book_id)
+
+    book = book_service.get_book(db, parsed_book_id)
     if book is None:
-        return templates.TemplateResponse(
-            request,
-            "books/not_found.html",
-            {"book_id": book_id},
-            status_code=404,
-        )
+        return not_found_response(request, book_id)
     return templates.TemplateResponse(request, "books/detail.html", {"book": book})
 
 
 @router.get("/books/{book_id}/edit")
-def edit_book_form(request: Request, book_id: int, db: Session = Depends(get_db)):
-    book = book_service.get_book(db, book_id)
+def edit_book_form(request: Request, book_id: str, db: Session = Depends(get_db)):
+    parsed_book_id = parse_book_id(book_id)
+    if parsed_book_id is None:
+        return not_found_response(request, book_id)
+
+    book = book_service.get_book(db, parsed_book_id)
     if book is None:
-        return templates.TemplateResponse(
-            request,
-            "books/not_found.html",
-            {"book_id": book_id},
-            status_code=404,
-        )
+        return not_found_response(request, book_id)
     return templates.TemplateResponse(
         request,
         "books/form.html",
@@ -114,18 +128,17 @@ def edit_book_form(request: Request, book_id: int, db: Session = Depends(get_db)
 @router.post("/books/{book_id}/edit")
 def update_book(
     request: Request,
-    book_id: int,
+    book_id: str,
     form: dict[str, str] = Depends(book_form_data),
     db: Session = Depends(get_db),
 ):
-    book = book_service.get_book(db, book_id)
+    parsed_book_id = parse_book_id(book_id)
+    if parsed_book_id is None:
+        return not_found_response(request, book_id)
+
+    book = book_service.get_book(db, parsed_book_id)
     if book is None:
-        return templates.TemplateResponse(
-            request,
-            "books/not_found.html",
-            {"book_id": book_id},
-            status_code=404,
-        )
+        return not_found_response(request, book_id)
     updated, errors = book_service.update_book_from_form(db, book, **form)
     if errors:
         return templates.TemplateResponse(
@@ -143,8 +156,14 @@ def update_book(
 
 
 @router.post("/books/{book_id}/delete")
-def remove_book(book_id: int, db: Session = Depends(get_db)):
-    book = book_service.get_book(db, book_id)
-    if book is not None:
-        book_service.delete_book(db, book)
+def remove_book(request: Request, book_id: str, db: Session = Depends(get_db)):
+    parsed_book_id = parse_book_id(book_id)
+    if parsed_book_id is None:
+        return not_found_response(request, book_id)
+
+    book = book_service.get_book(db, parsed_book_id)
+    if book is None:
+        return not_found_response(request, book_id)
+
+    book_service.delete_book(db, book)
     return RedirectResponse(url="/books", status_code=303)
