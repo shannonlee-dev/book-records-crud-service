@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
-from models.book import Book
-from repositories import book_repository
+from book_records.models.book import Book
+from book_records.repositories import book_repository
 
 
 def list_books(db: Session, query: str | None = None) -> list[Book]:
@@ -13,7 +13,9 @@ def get_book(db: Session, book_id: int) -> Book | None:
     return book_repository.get_book(db, book_id)
 
 
-def validate_book_input(title: str, author: str, publication_year: str, note: str) -> dict[str, str]:
+def validate_book_input(
+    title: str, author: str, publication_year: str, note: str
+) -> dict[str, str]:
     errors: dict[str, str] = {}
     if not title.strip():
         errors["title"] = "제목은 필수입니다."

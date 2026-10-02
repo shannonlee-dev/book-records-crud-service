@@ -1,14 +1,12 @@
 from fastapi import APIRouter, Depends, Form, Request
 from fastapi.responses import RedirectResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 
-from database import get_db
-from services import book_service
-
+from book_records.core.database import get_db
+from book_records.services import book_service
+from book_records.ui.templating import templates
 
 router = APIRouter()
-templates = Jinja2Templates(directory="templates")
 
 
 def not_found_response(request: Request, book_id: str):

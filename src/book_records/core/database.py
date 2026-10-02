@@ -1,11 +1,11 @@
 from collections.abc import Generator
-from pathlib import Path
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session, declarative_base, sessionmaker
 
+from book_records.core.paths import PROJECT_DIR
 
-BASE_DIR = Path(__file__).resolve().parent
+BASE_DIR = PROJECT_DIR
 DATABASE_PATH = BASE_DIR / "database.db"
 DATABASE_URL = f"sqlite:///{DATABASE_PATH}"
 

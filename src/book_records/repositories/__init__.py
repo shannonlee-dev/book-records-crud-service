@@ -1,4 +1,4 @@
-from repositories.book_repository import (
+from book_records.repositories.book_repository import (
     create_book,
     delete_book,
     get_book,

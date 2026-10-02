@@ -1,4 +1,4 @@
-from services.book_service import (
+from book_records.services.book_service import (
     create_book_from_form,
     delete_book,
     get_book,
