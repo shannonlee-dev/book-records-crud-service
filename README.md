@@ -76,6 +76,6 @@ make smoke
 make build
 ```
 
-정적 검사 후 pytest의 임시 DB fixture와 FastAPI `TestClient`로 홈·목록·등록·조회·수정·삭제 흐름을 확인합니다. 원본 레포의 DB를 생성하거나 수정하지 않습니다.
+정적 검사 후 pytest의 임시 DB fixture와 FastAPI `TestClient`로 홈·목록·등록·조회·수정·삭제 흐름을 확인합니다. 제목·저자·메모 검색, 잘못된 ID의 조회·수정·삭제, 잘못된 수정 입력의 오류 표시와 기존 데이터 보존도 검사합니다. 원본 레포의 DB를 생성하거나 수정하지 않습니다.
 
-`make check`는 정적 분석·포맷·문서 검사를, `make test`는 `uv run --frozen pytest -q`로 전체 동작 검사를 실행합니다. `make smoke`는 같은 테스트 중 `smoke` 마커가 붙은 실행 확인만 선택합니다(`uv run --frozen pytest -q -m smoke`). 테스트는 `test_*.py`와 fixture로 구성하며 임시 DB·파일과 모의 요청을 사용합니다.
+`make check`는 정적 분석·포맷·문서 검사를, `make test`는 `uv run --frozen pytest -q`로 저장소의 전체 pytest suite를 실행합니다. `make smoke`는 같은 테스트 중 `smoke` 마커가 붙은 HTTP 확인을 선택합니다(`uv run --frozen pytest -q -m smoke`). 테스트는 임시 DB와 모의 HTTP 요청을 사용합니다. DB 장애·실제 브라우저 배치·모든 지원 Python 버전의 실행까지 검증하는 것은 아닙니다.
